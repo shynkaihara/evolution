@@ -1,16 +1,16 @@
 services:
   evolution_api:
     image: atendai/evolution-api:v2.2.0
+    env_file:
+      - .env  # This ensures the .env file is loaded correctly
     environment:
-      - DATABASE_CONNECTION_URI=postgresql://postgres:Shadow151!@postgres:5432/evolution
-      - CACHE_REDIS_URI=redis://redis:6379
+      - DATABASE_PROVIDER=postgresql  # These can also be explicitly set if needed
+      - DATABASE_CONNECTION_URI=postgresql://postgres:Shadow151@postgres:5432/evolution?schema=public
     networks:
       - evolution-net
     depends_on:
       - postgres
       - redis
-    env_file:
-      - .env
 
   postgres:
     image: postgres:latest
