@@ -5,7 +5,7 @@ services:
       - .env  # This ensures the .env file is loaded correctly
     environment:
       - DATABASE_PROVIDER=postgresql  # These can also be explicitly set if needed
-      - DATABASE_CONNECTION_URI=postgresql://postgres:Shadow151@postgres:5432/evolution?schema=public
+      - DATABASE_CONNECTION_URI=x80ks40s08cgscck844wsw4w-postgres-1://postgres:Shadow151@postgres:5432/evolution?schema=public
     networks:
       - evolution-net
     depends_on:
