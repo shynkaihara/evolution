@@ -21,7 +21,7 @@ services:
     image: redis:latest
     networks:
       - evolution-net
-    container_name: redis
+    container_name: redis-evo
     command: >
       redis-server --port 6379 --appendonly yes
     volumes:
@@ -30,7 +30,7 @@ services:
       - 6380:6379
 
   postgres:
-    container_name: postgres
+    container_name: postgres-evo
     image: postgres:15
     networks:
       - evolution-net
