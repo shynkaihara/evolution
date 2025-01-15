@@ -5,10 +5,12 @@ services:
       - DATABASE_CONNECTION_URI=postgresql://postgres:Shadow151!@postgres:5432/evolution
       - CACHE_REDIS_URI=redis://redis:6379
     networks:
-      - coolify_network
+      - evolutin-net
     depends_on:
       - postgres
       - redis
+    env_file:
+      - .env
 
   postgres:
     image: postgres:latest
@@ -17,13 +19,13 @@ services:
       POSTGRES_PASSWORD: Shadow151
       POSTGRES_DB: evolution
     networks:
-      - coolify_network
+      - evolution-net
 
   redis:
     image: redis:latest
     networks:
-      - coolify_network
+      - evolution-net
 
 networks:
-  coolify_network:
+  evolution-net:
     driver: bridge
