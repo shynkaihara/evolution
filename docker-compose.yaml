@@ -15,7 +15,7 @@ services:
     env_file:
       - .env
     expose:
-      - 8000
+      - 8090
 
   redis:
     image: redis:latest
