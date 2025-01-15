@@ -27,7 +27,7 @@ services:
     volumes:
       - evolution_redis:/data
     ports:
-      - 6379:6379
+      - 6379
 
   postgres:
     container_name: postgres
@@ -37,9 +37,9 @@ services:
     command: ["postgres", "-c", "max_connections=1000"]
     restart: always
     ports:
-      - 5432:5432
+      - 5432
     environment:
-      - POSTGRES_PASSWORD=PASSWORD
+      - POSTGRES_PASSWORD=Shadow151
     volumes:
       - postgres_data:/var/lib/postgresql/data
     expose:
