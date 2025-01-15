@@ -3,6 +3,9 @@ services:
     container_name: evolution_api
     image: atendai/evolution-api:v2.2.0
     restart: always
+    environment:
+      - DATABASE_PROVIDER=postgresql  # These can also be explicitly set if needed
+      - DATABASE_CONNECTION_URI=postgres-evo://postgres:Shadow151@postgres:5432/evolution?schema=public
     depends_on:
       - redis
       - postgres
