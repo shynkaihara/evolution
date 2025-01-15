@@ -1,31 +1,57 @@
 services:
-  evolution_api:
+  api:
+    container_name: evolution_api
     image: atendai/evolution-api:v2.2.0
-    env_file:
-      - .env  # This ensures the .env file is loaded correctly
-    environment:
-      - DATABASE_PROVIDER=postgresql  # These can also be explicitly set if needed
-      - DATABASE_CONNECTION_URI=x80ks40s08cgscck844wsw4w-postgres-1://postgres:Shadow151@postgres:5432/evolution?schema=public
-    networks:
-      - evolution-net
+    restart: always
     depends_on:
-      - postgres
       - redis
-
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Shadow151
-      POSTGRES_DB: evolution
+      - postgres
+    ports:
+      - 8090:8080
+    volumes:
+      - evolution_instances:/evolution/instances
     networks:
       - evolution-net
+    env_file:
+      - .env
+    expose:
+      - 8000
 
   redis:
     image: redis:latest
     networks:
       - evolution-net
+    container_name: redis
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - evolution_redis:/data
+    ports:
+      - 6379:6379
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    networks:
+      - evolution-net
+    command: ["postgres", "-c", "max_connections=1000"]
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=Shadow151
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5433
+
+volumes:
+  evolution_instances:
+  evolution_redis:
+  postgres_data:
+
 
 networks:
   evolution-net:
+    name: evolution-net
     driver: bridge
