@@ -5,7 +5,7 @@ services:
       - DATABASE_CONNECTION_URI=postgresql://postgres:Shadow151!@postgres:5432/evolution
       - CACHE_REDIS_URI=redis://redis:6379
     networks:
-      - evolutin-net
+      - evolution-net
     depends_on:
       - postgres
       - redis
