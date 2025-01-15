@@ -1,57 +1,31 @@
+version: '3'
+
 services:
-  api:
-    container_name: evolution_api
-    image: atendai/evolution-api:v2.2.0
-    restart: always
-    depends_on:
-      - redis
-      - postgres
-    ports:
-      - 8090:8080
-    volumes:
-      - evolution_instances:/evolution/instances
+  evolution_api:
+    image: evolution_api_image
+    environment:
+      - DATABASE_CONNECTION_URI=postgresql://postgres:Shadow151!@postgres:5432/evolution
+      - CACHE_REDIS_URI=redis://redis:6379
     networks:
-      - evolution-net
-    env_file:
-      - .env
-    expose:
-      - 8090
+      - coolify_network
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Shadow151
+      POSTGRES_DB: evolution
+    networks:
+      - coolify_network
 
   redis:
     image: redis:latest
     networks:
-      - evolution-net
-    container_name: redis
-    command: >
-      redis-server --port 6379 --appendonly yes
-    volumes:
-      - evolution_redis:/data
-    ports:
-      - 6380:6379
-
-  postgres:
-    container_name: postgres
-    image: postgres:15
-    networks:
-      - evolution-net
-    command: ["postgres", "-c", "max_connections=1000"]
-    restart: always
-    ports:
-      - 5433:5432
-    environment:
-      - POSTGRES_PASSWORD=Shadow151
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    expose:
-      - 5433
-
-volumes:
-  evolution_instances:
-  evolution_redis:
-  postgres_data:
-
+      - coolify_network
 
 networks:
-  evolution-net:
-    name: evolution-net
+  coolify_network:
     driver: bridge
