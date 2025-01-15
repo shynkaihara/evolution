@@ -2,7 +2,7 @@ version: '3'
 
 services:
   evolution_api:
-    image: evolution_api_image
+    image: atendai/evolution-api:v2.2.0
     environment:
       - DATABASE_CONNECTION_URI=postgresql://postgres:Shadow151!@postgres:5432/evolution
       - CACHE_REDIS_URI=redis://redis:6379
